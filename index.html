@@ -1,0 +1,1411 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Steel art</title>
+    <!-- FontAwesome للأيقونات -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- مكتبة AOS للانيميشن الفاخر -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css">
+    <style>
+        :root {
+            --bg-color: #060910;
+            --text-color: #f1f5f9;
+            --primary-color: #f59e0b; /* ذهبي / نحاسي راقي ومريح للعين */
+            --primary-glow: rgba(245, 158, 11, 0.45);
+            --secondary-color: #06b6d4;
+            --card-bg: rgba(15, 23, 42, 0.85);
+            --border-color: rgba(255, 255, 255, 0.1);
+        }
+
+        [data-theme="light"] {
+            --bg-color: #f8fafc;
+            --text-color: #0f172a;
+            --primary-color: #d97706;
+            --primary-glow: rgba(217, 119, 6, 0.3);
+            --secondary-color: #0284c7;
+            --card-bg: rgba(255, 255, 255, 0.92);
+            --border-color: rgba(0, 0, 0, 0.1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            transition: background 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            overflow-x: hidden;
+            scroll-behavior: smooth;
+        }
+
+        button, .option-item, .feature-card, input, select {
+            transform: scale(1);
+            transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        button:active, .option-item:active {
+            transform: scale(0.96) !important;
+        }
+
+        /* شاشة البداية الاحترافية */
+        #intro-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100vh;
+            background: #020408;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            animation: slideUpIntro 1s cubic-bezier(0.77, 0, 0.175, 1) 3.5s forwards;
+        }
+
+        .laser-container {
+            position: relative;
+            display: inline-block;
+        }
+
+        .intro-logo-text {
+            font-size: 4.2rem;
+            font-weight: 900;
+            color: #ffffff;
+            letter-spacing: 5px;
+            background: linear-gradient(90deg, #ffffff 0%, #cbd5e1 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            clip-path: inset(0 100% 0 0);
+            animation: revealName 2s cubic-bezier(0.77, 0, 0.175, 1) 0.5s forwards;
+            text-shadow: 0 0 30px rgba(245, 158, 11, 0.5);
+        }
+
+        .red-laser-beam {
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            border-right: 5px solid #ef4444;
+            box-shadow: 0 0 30px 8px #ef4444, 0 0 60px 15px #dc2626;
+            animation: laserCutMove 2s cubic-bezier(0.77, 0, 0.175, 1) 0.5s forwards;
+            z-index: 10;
+        }
+
+        @keyframes revealName {
+            0% { clip-path: inset(0 100% 0 0); }
+            100% { clip-path: inset(0 0 0 0); }
+        }
+
+        @keyframes laserCutMove {
+            0% { left: -100%; opacity: 1; }
+            100% { left: 100%; opacity: 0; }
+        }
+
+        @keyframes slideUpIntro {
+            to { transform: translateY(-100%); visibility: hidden; }
+        }
+
+        /* شريط التنقل العلوي الحديث والمتجاوب */
+        header {
+            position: sticky;
+            top: 0;
+            background: var(--card-bg);
+            backdrop-filter: blur(25px);
+            -webkit-backdrop-filter: blur(25px);
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 5%;
+            z-index: 1000;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+
+        .logo {
+            font-size: 1.7rem;
+            font-weight: 900;
+            color: var(--primary-color);
+            letter-spacing: 1.2px;
+            text-shadow: 0 0 18px var(--primary-glow);
+        }
+
+        nav ul {
+            display: flex;
+            list-style: none;
+            gap: 25px;
+        }
+
+        nav ul li a {
+            color: var(--text-color);
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1rem;
+            position: relative;
+        }
+
+        nav ul li a::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2.5px;
+            bottom: -6px;
+            inset-inline-end: 0;
+            background-color: var(--primary-color);
+            transition: width 0.3s ease;
+            box-shadow: 0 0 10px var(--primary-color);
+        }
+
+        nav ul li a:hover::after {
+            width: 100%;
+        }
+
+        nav ul li a:hover {
+            color: var(--primary-color);
+        }
+
+        .controls {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+
+        select, button.control-btn {
+            background: var(--bg-color);
+            color: var(--text-color);
+            border: 1px solid var(--border-color);
+            padding: 8px 12px;
+            border-radius: 10px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+
+        select:hover, button.control-btn:hover {
+            border-color: var(--primary-color);
+            box-shadow: 0 0 12px var(--primary-glow);
+        }
+
+        .menu-toggle {
+            display: none;
+            background: none;
+            border: none;
+            color: var(--text-color);
+            font-size: 1.8rem;
+            cursor: pointer;
+        }
+
+        /* واجهة Hero الفاخرة */
+        .hero {
+            min-height: 85vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 40px 20px;
+            position: relative;
+            background: radial-gradient(circle at center, var(--card-bg) 0%, var(--bg-color) 85%);
+        }
+
+        .hero h1 {
+            font-size: 3.2rem;
+            margin-bottom: 20px;
+            color: var(--primary-color);
+            line-height: 1.25;
+            font-weight: 900;
+            text-shadow: 0 0 35px var(--primary-glow);
+            max-width: 1100px;
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            max-width: 850px;
+            margin-bottom: 35px;
+            line-height: 1.8;
+            opacity: 0.9;
+        }
+
+        .btn {
+            background: linear-gradient(135deg, var(--primary-color), #d97706);
+            color: #ffffff;
+            padding: 14px 35px;
+            border: none;
+            border-radius: 14px;
+            font-weight: 800;
+            cursor: pointer;
+            text-decoration: none;
+            font-size: 1.1rem;
+            box-shadow: 0 0 30px var(--primary-glow);
+            transition: all 0.3s ease;
+            display: inline-block;
+        }
+
+        .btn:hover {
+            transform: translateY(-5px) scale(1.03);
+            box-shadow: 0 0 45px var(--primary-color);
+        }
+
+        /* الأقسام العامة */
+        section {
+            padding: 90px 6%;
+            border-bottom: 1px solid var(--border-color);
+            position: relative;
+        }
+
+        section h2 {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 15px;
+            color: var(--primary-color);
+            font-weight: 800;
+            text-shadow: 0 0 20px var(--primary-glow);
+        }
+
+        .section-desc {
+            text-align: center;
+            max-width: 820px;
+            margin: 0 auto 50px auto;
+            font-size: 1.1rem;
+            opacity: 0.88;
+            line-height: 1.8;
+        }
+
+        /* عداد الخبرة والمشاريع الفاخر */
+        .counter-section {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 30px;
+            text-align: center;
+            background: var(--card-bg);
+            backdrop-filter: blur(25px);
+            border: 1px solid var(--border-color);
+            border-radius: 24px;
+            padding: 50px 30px;
+            margin-bottom: 60px;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.25);
+        }
+
+        .counter-box h3 {
+            font-size: 3.8rem;
+            color: var(--primary-color);
+            margin-bottom: 10px;
+            font-weight: 900;
+            text-shadow: 0 0 25px var(--primary-glow);
+        }
+
+        .counter-box p {
+            font-size: 1.15rem;
+            font-weight: 700;
+        }
+
+        /* الشبكات والكروت الزجاجية العصرية */
+        .grid-3 {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
+        }
+
+        .feature-card {
+            background: var(--card-bg);
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--border-color);
+            padding: 40px 30px;
+            border-radius: 20px;
+            text-align: start;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.15);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-8px) scale(1.01);
+            border-color: var(--primary-color);
+            box-shadow: 0 25px 50px var(--primary-glow);
+        }
+
+        .feature-card i {
+            font-size: 2.8rem;
+            color: var(--primary-color);
+            margin-bottom: 20px;
+            text-shadow: 0 0 20px var(--primary-glow);
+        }
+
+        .feature-card h3 {
+            font-size: 1.4rem;
+            margin-bottom: 15px;
+            font-weight: 700;
+        }
+
+        .feature-card p {
+            line-height: 1.8;
+            opacity: 0.88;
+            font-size: 1.05rem;
+        }
+
+        /* حاسبة البوابة المتطورة الفاخرة */
+        .dimensions-box {
+            background: var(--card-bg);
+            backdrop-filter: blur(25px);
+            border: 2px solid var(--border-color);
+            border-radius: 24px;
+            padding: 40px 30px;
+            max-width: 820px;
+            margin: 0 auto;
+            box-shadow: 0 25px 60px rgba(0,0,0,0.35);
+            position: relative;
+        }
+
+        .calc-row {
+            display: flex;
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+
+        .calc-col {
+            flex: 1;
+        }
+
+        .form-group {
+            margin-bottom: 24px;
+            text-align: start;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 1.05rem;
+            font-weight: 700;
+            margin-bottom: 10px;
+            color: var(--text-color);
+        }
+
+        .form-group input[type="text"], 
+        .form-group input[type="number"] {
+            width: 100%;
+            padding: 14px 18px;
+            border-radius: 12px;
+            border: 1px solid var(--border-color);
+            background: var(--bg-color);
+            color: var(--text-color);
+            font-size: 1.1rem;
+            outline: none;
+        }
+
+        .form-group input[type="number"] {
+            text-align: center;
+        }
+
+        .form-group input:focus {
+            border-color: var(--primary-color);
+            box-shadow: 0 0 20px var(--primary-glow);
+        }
+
+        .options-group {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin-top: 8px;
+        }
+
+        .option-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid var(--border-color);
+            padding: 12px 16px;
+            border-radius: 12px;
+            cursor: pointer;
+        }
+
+        .option-item:hover {
+            border-color: var(--primary-color);
+            background: rgba(245, 158, 11, 0.08);
+            transform: translateX(-3px);
+        }
+
+        .option-item input[type="radio"] {
+            accent-color: var(--primary-color);
+            width: 18px;
+            height: 18px;
+            cursor: pointer;
+        }
+
+        .option-item span {
+            font-size: 1.05rem;
+            font-weight: 600;
+        }
+
+        #sizeResultCard {
+            display: none;
+            margin-top: 30px;
+            padding: 25px;
+            background: rgba(245, 158, 11, 0.08);
+            border: 2px solid var(--primary-color);
+            border-radius: 18px;
+            text-align: center;
+            box-shadow: 0 0 30px var(--primary-glow);
+            animation: fadeInUp 0.5s ease;
+        }
+
+        #sizeResultCard h3 {
+            color: var(--primary-color);
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+            font-weight: 800;
+        }
+
+        .summary-details {
+            text-align: start;
+            background: var(--bg-color);
+            border: 1px solid var(--border-color);
+            padding: 18px;
+            border-radius: 14px;
+            margin-bottom: 20px;
+            line-height: 1.9;
+            font-size: 1.05rem;
+        }
+
+        .summary-details strong {
+            color: var(--primary-color);
+        }
+
+        /* الفوتر الفاخر */
+        footer {
+            background-color: var(--card-bg);
+            backdrop-filter: blur(25px);
+            border-top: 1px solid var(--border-color);
+            padding: 50px 5%;
+            text-align: center;
+        }
+
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            margin-bottom: 25px;
+        }
+
+        .social-links a {
+            font-size: 2.2rem;
+            color: var(--text-color);
+            transition: color 0.3s ease, transform 0.3s ease;
+        }
+
+        .social-links a:hover {
+            color: var(--primary-color);
+            transform: translateY(-5px) scale(1.1);
+            text-shadow: 0 0 20px var(--primary-glow);
+        }
+
+        .developer {
+            margin-top: 15px;
+            font-size: 1.1rem;
+            font-weight: 600;
+        }
+
+        .developer a {
+            color: var(--primary-color);
+            text-decoration: none;
+            font-weight: 800;
+            text-shadow: 0 0 10px var(--primary-glow);
+        }
+
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @media (max-width: 992px) {
+            .menu-toggle {
+                display: block;
+            }
+            nav {
+                position: absolute;
+                top: 100%;
+                left: 0;
+                width: 100%;
+                background: var(--card-bg);
+                backdrop-filter: blur(25px);
+                border-bottom: 1px solid var(--border-color);
+                max-height: 0;
+                overflow: hidden;
+                transition: max-height 0.3s ease-in-out;
+            }
+            nav.active {
+                max-height: 380px;
+            }
+            nav ul {
+                flex-direction: column;
+                align-items: center;
+                padding: 20px 0;
+                gap: 15px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 2.4rem;
+            }
+            .hero p {
+                font-size: 1.05rem;
+            }
+            section h2 {
+                font-size: 2.1rem;
+            }
+            .calc-row {
+                flex-direction: column;
+                gap: 0;
+            }
+            .dimensions-box {
+                padding: 25px 20px;
+            }
+            .intro-logo-text {
+                font-size: 2.8rem;
+            }
+        }
+    </style>
+</head>
+<body data-theme="dark">
+
+    <!-- شاشة البداية -->
+    <div id="intro-screen">
+        <div class="laser-container">
+            <div class="red-laser-beam"></div>
+            <div class="intro-logo-text">Steel art</div>
+        </div>
+    </div>
+
+    <!-- شريط التنقل العلوي -->
+    <header>
+        <div class="logo">Steel art</div>
+        <button class="menu-toggle" onclick="toggleMenu()"><i class="fas fa-bars"></i></button>
+        <nav id="navMenu">
+            <ul>
+                <li><a href="#about" id="t-nav-about" onclick="toggleMenu()">من نحن</a></li>
+                <li><a href="#expertise" id="t-nav-exp" onclick="toggleMenu()">الخبرة الهندسية</a></li>
+                <li><a href="#services" id="t-nav-services" onclick="toggleMenu()">الخدمات والشراكات</a></li>
+                <li><a href="#vision" id="t-vision-link" onclick="toggleMenu()">رؤيتنا</a></li>
+                <li><a href="#calc" id="t-nav-calc" onclick="toggleMenu()">حاسبة البوابة</a></li>
+            </ul>
+        </nav>
+        <div class="controls">
+            <select id="langSelect" onchange="changeLanguage()">
+                <option value="ar">العربية</option>
+                <option value="en">English</option>
+                <option value="zh">中文</option>
+                <option value="fr">Français</option>
+                <option value="de">Deutsch</option>
+                <option value="es">Español</option>
+                <option value="tr">Türkçe</option>
+            </select>
+            <button class="control-btn" onclick="toggleTheme()"><i class="fas fa-moon" id="themeIcon"></i></button>
+        </div>
+    </header>
+
+    <!-- واجهة Hero -->
+    <section class="hero">
+        <h1 id="t-hero-title" data-aos="fade-down" data-aos-duration="1000">أبواب الليزر الحديثة بدقة هندسية مطلقة</h1>
+        <p id="t-hero-desc" data-aos="fade-up" data-aos-duration="1000" data-aos-delay="200">خبرة ممتدة لأكثر من 8 سنوات وأكثر من 500 مشروع ناجح تم تنفيذه بأعلى معايير الدقة والاحترافية والجمال المعماري والهندسي.</p>
+        <a href="#calc" class="btn" id="t-hero-btn" data-aos="zoom-in" data-aos-duration="800" data-aos-delay="400">احسب مقاس وتجهيز بوابتك الآن</a>
+    </section>
+
+    <!-- قسم من نحن والخبرة الممتدة -->
+    <section id="about">
+        <h2 id="t-about-title" data-aos="fade-up">من نحن والخبرة الممتدة</h2>
+        <p class="section-desc" id="t-about-subtitle" data-aos="fade-up" data-aos-delay="100">رواد صناعة وتشكيل أبواب الليزر بخبرة حقيقية تصل إلى 8 سنوات وأكثر من 500 مشروع ناجح ومميز تم إنجازه للفلل، القصور، والمنشآت التجارية الكبرى بأعلى مواصفات الجودة.</p>
+        
+        <div class="counter-section" data-aos="zoom-in-up" data-aos-duration="1000">
+            <div class="counter-box">
+                <h3 id="expCounter">8</h3>
+                <p id="t-counter-1">سنوات الخبرة العملية</p>
+            </div>
+            <div class="counter-box">
+                <h3 id="projCounter">500</h3>
+                <p id="t-counter-2">مشروع تم انجازه</p>
+            </div>
+            <div class="counter-box">
+                <h3>100%</h3>
+                <p id="t-counter-3">دقة قطع بالليزر</p>
+            </div>
+        </div>
+
+        <div class="grid-3">
+            <div class="feature-card" data-aos="fade-right" data-aos-duration="800">
+                <i class="fas fa-cut"></i>
+                <h3 id="t-ab1-title">قص ليزر فائق الدقة</h3>
+                <p id="t-ab1-desc">نستخدم أحدث ماكينات ألياف الليزر (Fiber Laser) بقدرات عالية للحصول على تفاصيل هندسية فائقة النعومة والنقاء ومتانة متناهية بدون أية حواف حادة أو تشوهات.</p>
+            </div>
+            <div class="feature-card" data-aos="fade-up" data-aos-duration="800" data-aos-delay="150">
+                <i class="fas fa-paint-roller"></i>
+                <h3 id="t-ab2-title">طلاء إلكتروستاتيك حراري</h3>
+                <p id="t-ab2-desc">معالجة وتغطية جميع الأبواب بأجود دهانات الفرن المقاومة تماماً للصدأ والتآكل وعوامل الطقس الصعبة لضمان استدامة الألوان لعشرات السنين دون تغير.</p>
+            </div>
+            <div class="feature-card" data-aos="fade-left" data-aos-duration="800" data-aos-delay="300">
+                <i class="fas fa-users"></i>
+                <h3 id="t-ab3-title">فريق هندسي متخصص</h3>
+                <p id="t-ab3-desc">نخبة من مهندسي التصميم الميكانيكي ومطوري الويب لتقديم تجربة استثنائية وسلسة لعملائنا بدءاً من الرسومات الهندسية حتى التثبيت الموقعى النهائي.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- قسم الخبرة الهندسية وتطوير الويب -->
+    <section id="expertise">
+        <h2 id="t-exp-title" data-aos="fade-up">الخبرة الهندسية والتحليل الميكانيكي</h2>
+        <p class="section-desc" id="t-exp-subtitle" data-aos="fade-up" data-aos-delay="100">نصمم نقوش أشكال الليزر عبر برامج الهندسة المتقدمة لضمان التحمل الميكانيكي ومقاومة التكتلات وتسهيل الحركة.</p>
+        
+        <div class="grid-3">
+            <div class="feature-card" data-aos="flip-left" data-aos-duration="1000">
+                <i class="fas fa-drafting-compass"></i>
+                <h3 id="t-exp1-title">AutoCAD & SolidWorks</h3>
+                <p id="t-exp1-desc">رسم وتعديل النقوش والمقاسات ميكانيكياً وضبط نسب التفريغ بدقة متناهية للحفاظ على متانة الباب الميكانيكية وصلابته ضد الصدمات.</p>
+            </div>
+            <div class="feature-card" data-aos="flip-up" data-aos-duration="1000" data-aos-delay="150">
+                <i class="fas fa-laptop-code"></i>
+                <h3 id="t-exp2-title">Frontend & Web Design</h3>
+                <p id="t-exp2-desc">تطوير منصة ويب تفاعلية مريحة للعميل لطلب المقاسات وحساب المساحة التقديرية والتواصل المباشر مع المهندسين المختصين.</p>
+            </div>
+            <div class="feature-card" data-aos="flip-right" data-aos-duration="1000" data-aos-delay="300">
+                <i class="fas fa-industry"></i>
+                <h3 id="t-exp3-title">تصنيع آلي متكامل</h3>
+                <p id="t-exp3-desc">خطوط تصنيع وتجميع حديثة تضمن تطابق المنتج النهائي مع التصميم المطلوبة والتفاصيل المعتمدة بنسبة 100%.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- قسم الخدمات والشراكات الفاخر -->
+    <section id="services">
+        <h2 id="t-serv-title" data-aos="fade-up">خدماتنا الشاملة للمشاريع</h2>
+        <p class="section-desc" id="t-serv-subtitle" data-aos="fade-up" data-aos-delay="100">نوفر حلولاً هندسية متكاملة لجميع أنواع البوابات الحديدية والأسوار الديكورية للمباني الحديثة.</p>
+
+        <div class="grid-3">
+            <div class="feature-card" data-aos="zoom-in" data-aos-duration="800">
+                <i class="fas fa-door-open"></i>
+                <h3 id="t-s1-title">بوابات مفصلية وجرارة</h3>
+                <p id="t-s1-desc">تصميم وتصنيع كافة أنواع البوابات السحاب والجرارة والمفصلية لضمان استغلال المساحة بأفضل شكل ممكن وبأعلى سلاسة حركة.</p>
+            </div>
+            <div class="feature-card" data-aos="zoom-in" data-aos-duration="800" data-aos-delay="150">
+                <i class="fas fa-microchip"></i>
+                <h3 id="t-s2-title">أنظمة الأتمتة والمواتير</h3>
+                <p id="t-s2-desc">تركيب وإعداد أحدث المواتير الكهربائية وأنظمة التحكم عن بُعد والريموت كنترول للبوابات بأعلى معدلات الأمان والموثوقية.</p>
+            </div>
+            <div class="feature-card" data-aos="zoom-in" data-aos-duration="800" data-aos-delay="300">
+                <i class="fas fa-shield-alt"></i>
+                <h3 id="t-s3-title">أبواب الأفراد والأمان</h3>
+                <p id="t-s3-desc">تصنيع أبواب المداخل الرئيسية والأفراد المطعمة بالخشب أو الأكريليك المزخرف بالليزر لحماية وأناقة لا مثيل لها.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- قسم الرؤية وراحة العميل -->
+    <section id="vision">
+        <h2 id="t-vision-title" data-aos="fade-up">رؤيتنا لراحة وأمان عملائنا</h2>
+        <p class="section-desc" id="t-vision-subtitle" data-aos="fade-up" data-aos-delay="100">نضع راحة العميل في المقام الأول، بدءاً من رفع المقاسات وتسهيل خيارات التصميم وحتى التركيب النهائي.</p>
+        
+        <div class="grid-3">
+            <div class="feature-card" data-aos="fade-right" data-aos-duration="800">
+                <i class="fas fa-comments"></i>
+                <h3 id="t-v1-title">متابعة هندسية مباشرة</h3>
+                <p id="t-v1-desc">تواصل دائم عبر الواتساب لاختيار الكتالوجات والنقوش المناسبة لطراز منزلك أو منشأتك بصورة سريعة ومباشرة.</p>
+            </div>
+            <div class="feature-card" data-aos="fade-up" data-aos-duration="800" data-aos-delay="150">
+                <i class="fas fa-tools"></i>
+                <h3 id="t-v2-title">تركيب احترافي دقيق</h3>
+                <p id="t-v2-desc">فريق تركيبات متمرس لضمان ضبط الميزان والربط المحكم وسلاسة الحركة والفتح والتأكد من جودة الدهان.</p>
+            </div>
+            <div class="feature-card" data-aos="fade-left" data-aos-duration="800" data-aos-delay="300">
+                <i class="fas fa-award"></i>
+                <h3 id="t-v3-title">ضمان جودة شامل</h3>
+                <p id="t-v3-desc">نضمن دقة التفريغ بالليزر ومتانة الدهانات والحديد ضد أية عيوب تصنيع أو تأثيرات جوية.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- قسم حاسبة المقاسات والمواصفات المتطورة -->
+    <section id="calc">
+        <h2 id="t-calc-title" data-aos="fade-up">حاسبة البوابة وتجهيز طلب السعر</h2>
+        <p class="section-desc" id="t-calc-desc" data-aos="fade-up" data-aos-delay="100">أدخل اسمك والأبعاد والمواصفات المطلوبة لحساب المساحة التقريبية وتجهيز الطلب مباشرة للمهندس المختص.</p>
+
+        <div class="dimensions-box" data-aos="zoom-in-up" data-aos-duration="1000">
+            <!-- اسم العميل -->
+            <div class="form-group">
+                <label id="t-lbl-name" for="clientName">اسم العميل:</label>
+                <input type="text" id="clientName" placeholder="أدخل اسمك الكريم هنا...">
+            </div>
+
+            <!-- العرض والارتفاع -->
+            <div class="calc-row">
+                <div class="calc-col">
+                    <div class="form-group">
+                        <label id="t-lbl-width" for="doorWidth">العرض بالمتر:</label>
+                        <input type="number" id="doorWidth" placeholder="4" step="0.1" min="0.1">
+                    </div>
+                </div>
+                <div class="calc-col">
+                    <div class="form-group">
+                        <label id="t-lbl-height" for="doorHeight">الارتفاع بالمتر:</label>
+                        <input type="number" id="doorHeight" placeholder="2.5" step="0.1" min="0.1">
+                    </div>
+                </div>
+            </div>
+
+            <!-- نوع البوابة -->
+            <div class="form-group">
+                <label id="t-lbl-type">نوع البوابة:</label>
+                <div class="options-group">
+                    <label class="option-item">
+                        <input type="radio" name="doorType" value="مفصلية (ضلفتبن)" checked>
+                        <span id="t-opt-t1">مفصلية (ضلفتبن)</span>
+                    </label>
+                    <label class="option-item">
+                        <input type="radio" name="doorType" value="جرارة">
+                        <span id="t-opt-t2">جرارة</span>
+                    </label>
+                    <label class="option-item">
+                        <input type="radio" name="doorType" value="باب أفراد">
+                        <span id="t-opt-t3">باب أفراد</span>
+                    </label>
+                </div>
+            </div>
+
+            <!-- التشطيب -->
+            <div class="form-group">
+                <label id="t-lbl-finish">التشطيب:</label>
+                <div class="options-group">
+                    <label class="option-item">
+                        <input type="radio" name="finishType" value="دهان إلكتروستاتيك" checked>
+                        <span id="t-opt-f1">دهان إلكتروستاتيك</span>
+                    </label>
+                    <label class="option-item">
+                        <input type="radio" name="finishType" value="دهان عادي">
+                        <span id="t-opt-f2">دهان عادي</span>
+                    </label>
+                    <label class="option-item">
+                        <input type="radio" name="finishType" value="لسه محتاج استشارة">
+                        <span id="t-opt-f3">لسه محتاج استشارة</span>
+                    </label>
+                </div>
+            </div>
+
+            <!-- هل محتاج موتور كهربائي؟ -->
+            <div class="form-group">
+                <label id="t-lbl-motor">هل محتاج موتور كهربائي؟</label>
+                <div class="options-group">
+                    <label class="option-item">
+                        <input type="radio" name="motorType" value="أيوه">
+                        <span id="t-opt-m1">أيوه</span>
+                    </label>
+                    <label class="option-item">
+                        <input type="radio" name="motorType" value="لأ" checked>
+                        <span id="t-opt-m2">لأ</span>
+                    </label>
+                    <label class="option-item">
+                        <input type="radio" name="motorType" value="حسب السعر">
+                        <span id="t-opt-m3">حسب السعر</span>
+                    </label>
+                </div>
+            </div>
+
+            <button class="btn" style="width: 100%; border-radius: 12px; font-size: 1.1rem; margin-top: 10px;" onclick="calculateAndShowSummary()" id="t-btn-confirm">تجهيز طلب عرض السعر بهذه المواصفات</button>
+
+            <!-- كارت النتيجة ورابط الواتساب -->
+            <div id="sizeResultCard">
+                <h3 id="t-res-title">ملخص مواصفات الطلب:</h3>
+                <div class="summary-details" id="summaryDetails"></div>
+                <button class="btn" style="background: linear-gradient(135deg, #25D366, #128C7E); width: 100%; border-radius: 12px; font-size: 1.1rem; box-shadow: 0 0 20px rgba(37, 211, 102, 0.3);" onclick="sendToWhatsAppEngineer()" id="t-btn-wa">
+                    <i class="fab fa-whatsapp" style="margin-inline-start: 8px;"></i> <span id="t-wa-text">إرسال الطلب لمهندس الشركة على واتساب</span>
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- الفوتر -->
+    <footer>
+        <div class="social-links">
+            <a href="https://facebook.com" target="_blank"><i class="fab fa-facebook"></i></a>
+            <a href="https://instagram.com" target="_blank"><i class="fab fa-instagram"></i></a>
+            <a href="https://wa.me/201005021453" target="_blank"><i class="fab fa-whatsapp"></i></a>
+        </div>
+        <p id="t-footer-rights">جميع الحقوق محفوظة 2026 © Steel art</p>
+        <p class="developer">Developed By <a href="https://baselmohamed.vercel.app" target="_blank" id="developerName">Basel</a></p>
+    </footer>
+
+    <!-- مكتبات JS المتقدمة -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
+    <script>
+        AOS.init({
+            duration: 900,
+            once: true,
+            offset: 100
+        });
+
+        // قائمة القاموس الشاملة لجميع اللغات (العربية، الإنجليزية، الصينية، الفرنسية، الألمانية، الإسبانية، التركية)
+        const translations = {
+            ar: {
+                dir: "rtl",
+                "t-nav-about": "من نحن",
+                "t-nav-exp": "الخبرة الهندسية",
+                "t-nav-services": "الخدمات والشراكات",
+                "t-vision-link": "رؤيتنا",
+                "t-nav-calc": "حاسبة البوابة",
+                "t-hero-title": "أبواب الليزر الحديثة بدقة هندسية مطلقة",
+                "t-hero-desc": "خبرة ممتدة لأكثر من 8 سنوات وأكثر من 500 مشروع ناجح تم تنفيذه بأعلى معايير الدقة والاحترافية والجمال المعماري والهندسي.",
+                "t-hero-btn": "احسب مقاس وتجهيز بوابتك الآن",
+                "t-about-title": "من نحن والخبرة الممتدة",
+                "t-about-subtitle": "رواد صناعة وتشكيل أبواب الليزر بخبرة حقيقية تصل إلى 8 سنوات وأكثر من 500 مشروع ناجح ومميز تم إنجازه للفلل، القصور، والمنشآت التجارية الكبرى بأعلى مواصفات الجودة.",
+                "t-counter-1": "سنوات الخبرة العملية",
+                "t-counter-2": "مشروع تم انجازه",
+                "t-counter-3": "دقة قطع بالليزر",
+                "t-ab1-title": "قص ليزر فائق الدقة",
+                "t-ab1-desc": "نستخدم أحدث ماكينات ألياف الليزر (Fiber Laser) بقدرات عالية للحصول على تفاصيل هندسية فائقة النعومة والنقاء ومتانة متناهية بدون أية حواف حادة أو تشوهات.",
+                "t-ab2-title": "طلاء إلكتروستاتيك حراري",
+                "t-ab2-desc": "معالجة وتغطية جميع الأبواب بأجود دهانات الفرن المقاومة تماماً للصدأ والتآكل وعوامل الطقس الصعبة لضمان استدامة الألوان لعشرات السنين دون تغير.",
+                "t-ab3-title": "فريق هندسي متخصص",
+                "t-ab3-desc": "نخبة من مهندسي التصميم الميكانيكي ومطوري الويب لتقديم تجربة استثنائية وسلسة لعملائنا بدءاً من الرسومات الهندسية حتى التثبيت الموقعى النهائي.",
+                "t-exp-title": "الخبرة الهندسية والتحليل الميكانيكي",
+                "t-exp-subtitle": "نصمم نقوش أشكال الليزر عبر برامج الهندسة المتقدمة لضمان التحمل الميكانيكي ومقاومة التكتلات وتسهيل الحركة.",
+                "t-exp1-title": "AutoCAD & SolidWorks",
+                "t-exp1-desc": "رسم وتعديل النقوش والمقاسات ميكانيكياً وضبط نسب التفريغ بدقة متناهية للحفاظ على متانة الباب الميكانيكية وصلابته ضد الصدمات.",
+                "t-exp2-title": "Frontend & Web Design",
+                "t-exp2-desc": "تطوير منصة ويب تفاعلية مريحة للعميل لطلب المقاسات وحساب المساحة التقديرية والتواصل المباشر مع المهندسين المختصين.",
+                "t-exp3-title": "تصنيع آلي متكامل",
+                "t-exp3-desc": "خطوط تصنيع وتجميع حديثة تضمن تطابق المنتج النهائي مع التصميم المطلوبة والتفاصيل المعتمدة بنسبة 100%.",
+                "t-serv-title": "خدماتنا الشاملة للمشاريع",
+                "t-serv-subtitle": "نوفر حلولاً هندسية متكاملة لجميع أنواع البوابات الحديدية والأسوار الديكورية للمباني الحديثة.",
+                "t-s1-title": "بوابات مفصلية وجرارة",
+                "t-s1-desc": "تصميم وتصنيع كافة أنواع البوابات السحاب والجرارة والمفصلية لضمان استغلال المساحة بأفضل شكل ممكن وبأعلى سلاسة حركة.",
+                "t-s2-title": "أنظمة الأتمتة والمواتير",
+                "t-s2-desc": "تركيب وإعداد أحدث المواتير الكهربائية وأنظمة التحكم عن بُعد والريموت كنترول للبوابات بأعلى معدلات الأمان والموثوقية.",
+                "t-s3-title": "أبواب الأفراد والأمان",
+                "t-s3-desc": "تصنيع أبواب المداخل الرئيسية والأفراد المطعمة بالخشب أو الأكريليك المزخرف بالليزر لحماية وأناقة لا مثيل لها.",
+                "t-vision-title": "رؤيتنا لراحة وأمان عملائنا",
+                "t-vision-subtitle": "نضع راحة العميل في المقام الأول، بدءاً من رفع المقاسات وتسهيل خيارات التصميم وحتى التركيب النهائي.",
+                "t-v1-title": "متابعة هندسية مباشرة",
+                "t-v1-desc": "تواصل دائم عبر الواتساب لاختيار الكتالوجات والنقوش المناسبة لطراز منزلك أو منشأتك بصورة سريعة ومباشرة.",
+                "t-v2-title": "تركيب احترافي دقيق",
+                "t-v2-desc": "فريق تركيبات متمرس لضمان ضبط الميزان والربط المحكم وسلاسة الحركة والفتح والتأكد من جودة الدهان.",
+                "t-v3-title": "ضمان جودة شامل",
+                "t-v3-desc": "نضمن دقة التفريغ بالليزر ومتانة الدهانات والحديد ضد أية عيوب تصنيع أو تأثيرات جوية.",
+                "t-calc-title": "حاسبة البوابة وتجهيز طلب السعر",
+                "t-calc-desc": "أدخل اسمك والأبعاد والمواصفات المطلوبة لحساب المساحة التقريبية وتجهيز الطلب مباشرة للمهندس المختص.",
+                "t-lbl-name": "اسم العميل:",
+                "t-lbl-width": "العرض بالمتر:",
+                "t-lbl-height": "الارتفاع بالمتر:",
+                "t-lbl-type": "نوع البوابة:",
+                "t-opt-t1": "مفصلية (ضلفتبن)",
+                "t-opt-t2": "جرارة",
+                "t-opt-t3": "باب أفراد",
+                "t-lbl-finish": "التشطيب:",
+                "t-opt-f1": "دهان إلكتروستاتيك",
+                "t-opt-f2": "دهان عادي",
+                "t-opt-f3": "لسه محتاج استشارة",
+                "t-lbl-motor": "هل محتاج موتور كهربائي؟",
+                "t-opt-m1": "أيوه",
+                "t-opt-m2": "لأ",
+                "t-opt-m3": "حسب السعر",
+                "t-btn-confirm": "تجهيز طلب عرض السعر بهذه المواصفات",
+                "t-res-title": "ملخص مواصفات الطلب:",
+                "t-wa-text": "إرسال الطلب لمهندس الشركة على واتساب",
+                "t-footer-rights": "جميع الحقوق محفوظة 2026 © Steel art"
+            },
+            en: {
+                dir: "ltr",
+                "t-nav-about": "About Us",
+                "t-nav-exp": "Engineering Expertise",
+                "t-nav-services": "Services & Partnerships",
+                "t-vision-link": "Our Vision",
+                "t-nav-calc": "Gate Calculator",
+                "t-hero-title": "Modern Laser Gates with Absolute Engineering Precision",
+                "t-hero-desc": "Over 8 years of extensive experience and 500+ successful projects executed with the highest standards of accuracy, professionalism, and architectural beauty.",
+                "t-hero-btn": "Calculate Gate Size & Spec Now",
+                "t-about-title": "About Us & Extended Experience",
+                "t-about-subtitle": "Pioneers in laser door manufacturing and forming with 8 years of real experience and over 500 successful projects delivered for villas, palaces, and major commercial facilities.",
+                "t-counter-1": "Years of Experience",
+                "t-counter-2": "Projects Completed",
+                "t-counter-3": "Laser Cut Precision",
+                "t-ab1-title": "Ultra-Precise Laser Cutting",
+                "t-ab1-desc": "Using state-of-the-art Fiber Laser machines with high capabilities to achieve ultra-smooth, flawless engineering details and ultimate durability without sharp edges.",
+                "t-ab2-title": "Thermal Electrostatic Coating",
+                "t-ab2-desc": "Treating and finishing all doors with the highest quality furnace paints completely resistant to rust, corrosion, and harsh weather for decades of lasting color.",
+                "t-ab3-title": "Specialized Engineering Team",
+                "t-ab3-desc": "An elite group of mechanical design engineers and web developers providing an exceptional and seamless experience from engineering drawings to final on-site installation.",
+                "t-exp-title": "Engineering Expertise & Mechanical Analysis",
+                "t-exp-subtitle": "We design laser engraving patterns through advanced engineering software to ensure mechanical endurance, prevent clustering, and facilitate movement.",
+                "t-exp1-title": "AutoCAD & SolidWorks",
+                "t-exp1-desc": "Drawing and modifying patterns and dimensions mechanically while precisely adjusting cutout ratios to maintain door structural strength against impacts.",
+                "t-exp2-title": "Frontend & Web Design",
+                "t-exp2-desc": "Developing an interactive web platform for clients to request measurements, estimate area, and communicate directly with specialized engineers.",
+                "t-exp3-title": "Integrated Automated Manufacturing",
+                "t-exp3-desc": "Modern manufacturing and assembly lines ensuring 100% match between the final product and approved designs.",
+                "t-serv-title": "Comprehensive Project Services",
+                "t-serv-subtitle": "Providing integrated engineering solutions for all types of iron gates and decorative fences for modern buildings.",
+                "t-s1-title": "Hinged & Sliding Gates",
+                "t-s1-desc": "Design and manufacturing of all types of sliding, retractable, and hinged gates to optimize space utilization and guarantee smooth operation.",
+                "t-s2-title": "Automation & Motor Systems",
+                "t-s2-desc": "Installation and setup of the latest electric motors, remote controls, and automation systems with top security and reliability.",
+                "t-s3-title": "Pedestrian & Security Doors",
+                "t-s3-desc": "Manufacturing main entrance and pedestrian doors trimmed with wood or laser-decorated acrylic for unmatched protection and elegance.",
+                "t-vision-title": "Our Vision for Client Comfort & Safety",
+                "t-vision-subtitle": "We put client comfort first, starting from taking measurements and facilitating design options up to final installation.",
+                "t-v1-title": "Direct Engineering Follow-up",
+                "t-v1-desc": "Continuous WhatsApp communication to quickly and directly select catalogs and patterns matching your home or facility style.",
+                "t-v2-title": "Precise Professional Installation",
+                "t-v2-desc": "An experienced installation team ensuring alignment, tight connections, smooth movement, and paint quality check.",
+                "t-v3-title": "Comprehensive Quality Guarantee",
+                "t-v3-desc": "We guarantee laser cutting precision, paint durability, and iron strength against any manufacturing defects or weather impacts.",
+                "t-calc-title": "Gate Calculator & Price Inquiry",
+                "t-calc-desc": "Enter your name, dimensions, and required specifications to calculate the approximate area and send the request directly to the engineer.",
+                "t-lbl-name": "Client Name:",
+                "t-lbl-width": "Width (meters):",
+                "t-lbl-height": "Height (meters):",
+                "t-lbl-type": "Gate Type:",
+                "t-opt-t1": "Hinged (Double Leaf)",
+                "t-opt-t2": "Sliding",
+                "t-opt-t3": "Pedestrian Door",
+                "t-lbl-finish": "Finish:",
+                "t-opt-f1": "Electrostatic Coating",
+                "t-opt-f2": "Standard Paint",
+                "t-opt-f3": "Need Consultation",
+                "t-lbl-motor": "Electric Motor Needed?",
+                "t-opt-m1": "Yes",
+                "t-opt-m2": "No",
+                "t-opt-m3": "Depending on Price",
+                "t-btn-confirm": "Prepare Quote Request with These Specs",
+                "t-res-title": "Order Specifications Summary:",
+                "t-wa-text": "Send Request to Company Engineer via WhatsApp",
+                "t-footer-rights": "All Rights Reserved 2026 © Steel art"
+            },
+            zh: {
+                dir: "ltr",
+                "t-nav-about": "关于我们",
+                "t-nav-exp": "工程专长",
+                "t-nav-services": "服务与合作",
+                "t-vision-link": "我们的愿景",
+                "t-nav-calc": "大门计算器",
+                "t-hero-title": "具有绝对工程精度的现代激光大门",
+                "t-hero-desc": "拥有8年以上丰富经验以及500多个成功项目，以最高的准确性、专业性和建筑美学执行。",
+                "t-hero-btn": "立即计算大门尺寸与规格",
+                "t-about-title": "关于我们与丰富经验",
+                "t-about-subtitle": "激光门制造与成型的先驱，拥有8年真实经验，为别墅、宫殿和大型商业设施成功交付了500多个项目。",
+                "t-counter-1": "多年工作经验",
+                "t-counter-2": "已完成项目",
+                "t-counter-3": "激光切割精度",
+                "t-ab1-title": "超高精度激光切割",
+                "t-ab1-desc": "使用最先进的光纤激光机器，获得超平滑、完美的工程细节和极致耐用性，无任何锋利边缘。",
+                "t-ab2-title": "热固静电喷涂",
+                "t-ab2-desc": "所有大门均经过最高品质的烤漆处理，完全防锈、抗腐蚀及抵御恶劣天气，确保颜色历久弥新。",
+                "t-ab3-title": "专业工程团队",
+                "t-ab3-desc": "由机械设计工程师和网络开发人员组成的精英团队，为您提供从工程图纸到最终现场安装的卓越无缝体验。",
+                "t-exp-title": "工程专长与机械分析",
+                "t-exp-subtitle": "我们通过先进的工程软件设计激光雕刻图案，以确保机械承载力、防止拥堵并便于移动。",
+                "t-exp1-title": "AutoCAD & SolidWorks",
+                "t-exp1-desc": "机械绘制和修改图案与尺寸，精准调整镂空比例，以保持大门对抗冲击的机械结构强度。",
+                "t-exp2-title": "前端与网页设计",
+                "t-exp2-desc": "开发交互式网页平台，方便客户查询尺寸、计算面积并直接与专业工程师联系。",
+                "t-exp3-title": "集成自动化制造",
+                "t-exp3-desc": "现代化的制造与装配线，确保最终产品与批准的设计100%吻合。",
+                "t-serv-title": "全面的项目服务",
+                "t-serv-subtitle": "为现代建筑的各类铁门和装饰围栏提供一体化工程解决方案。",
+                "t-s1-title": "对开门与推拉门",
+                "t-s1-desc": "设计和制造各种推拉门、卷帘门和对开门，以最佳方式利用空间并确保运行流畅。",
+                "t-s2-title": "自动化与电机系统",
+                "t-s2-desc": "安装和配置最新的电动马达、远程遥控系统，确保最高级别的安全性和可靠性。",
+                "t-s3-title": "人员出入口与安全门",
+                "t-s3-desc": "制造饰有木材或激光装饰丙烯酸的主入口和行人门，提供无与伦比的保护和优雅。",
+                "t-vision-title": "以客户舒适与安全为中心的愿景",
+                "t-vision-subtitle": "我们把客户的舒适放在首位，从测量尺寸、简化设计选择到最终安装。",
+                "t-v1-title": "直接工程跟进",
+                "t-v1-desc": "通过WhatsApp保持持续沟通，快速直接地挑选符合您房屋或设施风格的目录和图案。",
+                "t-v2-title": "精准专业安装",
+                "t-v2-desc": "经验丰富的安装团队，确保对齐、紧密连接、移动顺畅以及油漆质量检查。",
+                "t-v3-title": "全面的质量保证",
+                "t-v3-desc": "我们保证激光切割精度、油漆耐久性和铁制品的强度，以抵御任何制造缺陷或天气影响。",
+                "t-calc-title": "大门计算器与价格查询",
+                "t-calc-desc": "输入您的姓名、尺寸和所需规格以计算大致面积，并将请求直接发送给专业工程师。",
+                "t-lbl-name": "客户姓名:",
+                "t-lbl-width": "宽度 (米):",
+                "t-lbl-height": "高度 (米):",
+                "t-lbl-type": "大门类型:",
+                "t-opt-t1": "对开门 (双扇)",
+                "t-opt-t2": "推拉门",
+                "t-opt-t3": "行人门",
+                "t-lbl-finish": "表面处理:",
+                "t-opt-f1": "静电喷涂",
+                "t-opt-f2": "普通油漆",
+                "t-opt-f3": "仍需咨询",
+                "t-lbl-motor": "需要电动电机吗？",
+                "t-opt-m1": "需要",
+                "t-opt-m2": "不需要",
+                "t-opt-m3": "视价格而定",
+                "t-btn-confirm": "根据这些规格准备报价请求",
+                "t-res-title": "订单规格摘要:",
+                "t-wa-text": "通过WhatsApp发送请求给公司工程师",
+                "t-footer-rights": "版权所有 2026 © Steel art"
+            },
+            fr: {
+                dir: "ltr",
+                "t-nav-about": "À propos",
+                "t-nav-exp": "Expertise technique",
+                "t-nav-services": "Services et Partenariats",
+                "t-vision-link": "Notre Vision",
+                "t-nav-calc": "Calculateur de portail",
+                "t-hero-title": "Portails laser modernes avec une précision d'ingénierie absolue",
+                "t-hero-desc": "Plus de 8 ans d'expérience approfondie et plus de 500 projets réussis exécutés selon les normes les plus élevées de précision et de beauté architecturale.",
+                "t-hero-btn": "Calculez la taille et les spécifications de votre portail",
+                "t-about-title": "À propos et expérience approfondie",
+                "t-about-subtitle": "Pionniers dans la fabrication et le façonnage de portes laser avec 8 ans d'expérience et plus de 500 projets réussis pour villas, palais et grands complexes commerciaux.",
+                "t-counter-1": "Années d'expérience",
+                "t-counter-2": "Projets réalisés",
+                "t-counter-3": "Précision de découpe laser",
+                "t-ab1-title": "Découpe laser ultra-précise",
+                "t-ab1-desc": "Utilisation de machines à fibre laser de pointe pour obtenir des détails d'ingénierie ultra-lisses et une durabilité ultime sans bords tranchants.",
+                "t-ab2-title": "Revêtement électrostatique thermique",
+                "t-ab2-desc": "Traitement de toutes les portes avec des peintures de four de la plus haute qualité, totalement résistantes à la rouille et aux intempéries.",
+                "t-ab3-title": "Équipe d'ingénierie spécialisée",
+                "t-ab3-desc": "Une élite d'ingénieurs en conception mécanique et de développeurs web offrant une expérience transparente, de la conception à l'installation.",
+                "t-exp-title": "Expertise technique et analyse mécanique",
+                "t-exp-subtitle": "Nous concevons des motifs laser via des logiciels d'ingénierie avancés pour assurer l'endurance mécanique et faciliter le mouvement.",
+                "t-exp1-title": "AutoCAD & SolidWorks",
+                "t-exp1-desc": "Dessin et modification mécanique des motifs et des dimensions avec un ajustement précis pour préserver la solidité structurelle.",
+                "t-exp2-title": "Frontend & Design Web",
+                "t-exp2-desc": "Développement d'une plateforme web interactive permettant aux clients de commander des mesures et de contacter les ingénieurs.",
+                "t-exp3-title": "Fabrication automatisée intégrée",
+                "t-exp3-desc": "Lignes de fabrication modernes garantissant une correspondance à 100 % entre le produit final et les plans approuvés.",
+                "t-serv-title": "Services de projets complets",
+                "t-serv-subtitle": "Solutions d'ingénierie intégrées pour tous types de portails en fer et de clôtures décoratives pour bâtiments modernes.",
+                "t-s1-title": "Portails battants et coulissants",
+                "t-s1-desc": "Conception et fabrication de tous types de portails coulissants et battants pour une utilisation optimale de l'espace.",
+                "t-s2-title": "Systèmes d'automatisation et moteurs",
+                "t-s2-desc": "Installation des derniers moteurs électriques et systèmes de contrôle à distance avec les plus hauts niveaux de sécurité.",
+                "t-s3-title": "Portes piétonnes et de sécurité",
+                "t-s3-desc": "Fabrication de portes d'entrée principales et piétonnes ornées de bois ou d'acrylique pour une protection inégalée.",
+                "t-vision-title": "Notre vision pour le confort et la sécurité",
+                "t-vision-subtitle": "Le confort du client est notre priorité, de la prise de mesures et la conception jusqu'à l'installation finale.",
+                "t-v1-title": "Suivi technique direct",
+                "t-v1-desc": "Communication permanente via WhatsApp pour sélectionner rapidement les catalogues et motifs adaptés à votre style.",
+                "t-v2-title": "Installation professionnelle précise",
+                "t-v2-desc": "Une équipe d'installation expérimentée garantissant l'alignement, la solidité et un mouvement fluide.",
+                "t-v3-title": "Garantie de qualité complète",
+                "t-v3-desc": "Nous garantissons la précision de la découpe laser et la durabilité des peintures et du fer contre les défauts.",
+                "t-calc-title": "Calculateur de portail et devis",
+                "t-calc-desc": "Entrez votre nom et les dimensions requises pour calculer la surface approximative et envoyer la demande à l'ingénieur.",
+                "t-lbl-name": "Nom du client :",
+                "t-lbl-width": "Largeur (mètres) :",
+                "t-lbl-height": "Hauteur (mètres) :",
+                "t-lbl-type": "Type de portail :",
+                "t-opt-t1": "Battant (Double vantail)",
+                "t-opt-t2": "Coulissant",
+                "t-opt-t3": "Porte piétonne",
+                "t-lbl-finish": "Finition :",
+                "t-opt-f1": "Revêtement électrostatique",
+                "t-opt-f2": "Peinture standard",
+                "t-opt-f3": "Besoin de consultation",
+                "t-lbl-motor": "Moteur électrique requis ?",
+                "t-opt-m1": "Oui",
+                "t-opt-m2": "Non",
+                "t-opt-m3": "Selon le prix",
+                "t-btn-confirm": "Préparer la demande de devis avec ces spécifications",
+                "t-res-title": "Résumé des spécifications de la commande :",
+                "t-wa-text": "Envoyer la demande à l'ingénieur via WhatsApp",
+                "t-footer-rights": "Tous droits réservés 2026 © Steel art"
+            },
+            de: {
+                dir: "ltr",
+                "t-nav-about": "Über uns",
+                "t-nav-exp": "Ingenieurkompetenz",
+                "t-nav-services": "Dienstleistungen & Partnerschaften",
+                "t-vision-link": "Unsere Vision",
+                "t-nav-calc": "Tor-Rechner",
+                "t-hero-title": "Moderne Lasertore mit absoluter Ingenieurspräzision",
+                "t-hero-desc": "Über 8 Jahre umfassende Erfahrung und über 500 erfolgreiche Projekte, ausgeführt nach höchsten Standards an Präzision und architektonischer Schönheit.",
+                "t-hero-btn": "Torgröße & Spezifikation jetzt berechnen",
+                "t-about-title": "Über uns & Erweiterte Erfahrung",
+                "t-about-subtitle": "Pioniere in der Herstellung und Formgebung von Lasertoren mit 8 Jahren echter Erfahrung und über 500 erfolgreichen Projekten für Villen, Paläste und große Gewerbeimmobilien.",
+                "t-counter-1": "Jahre Erfahrung",
+                "t-counter-2": "Abgeschlossene Projekte",
+                "t-counter-3": "Laserschnittpräzision",
+                "t-ab1-title": "Präzisions-Laserschnitt",
+                "t-ab1-desc": "Einsatz modernster Faserlaser-Maschinen für ultra-glatte, fehlerfreie Ingenieursdetails und ultimative Haltbarkeit ohne scharfe Kanten.",
+                "t-ab2-title": "Thermische Elektrostatik-Beschichtung",
+                "t-ab2-desc": "Behandlung aller Türen mit hochwertigsten Ofenfarben, die vollständig beständig gegen Rost und Witterungseinflüsse sind.",
+                "t-ab3-title": "Spezialisiertes Ingenieursteam",
+                "t-ab3-desc": "Eine Elite von Konstruktionsingenieuren und Webentwicklern, die ein reibungsloses Erlebnis von der Zeichnung bis zur Montage bieten.",
+                "t-exp-title": "Ingenieurkompetenz & Mechanische Analyse",
+                "t-exp-subtitle": "Wir entwerfen Lasergravurmuster über fortschrittliche Software, um die mechanische Belastbarkeit zu gewährleisten.",
+                "t-exp1-title": "AutoCAD & SolidWorks",
+                "t-exp1-desc": "Mechanisches Zeichnen und Anpassen von Mustern und Maßen zur Erhaltung der strukturellen Festigkeit.",
+                "t-exp2-title": "Frontend & Webdesign",
+                "t-exp2-desc": "Entwicklung einer interaktiven Webplattform für Kunden zur Abfrage von Maßen und direkten Kontaktaufnahme mit Ingenieuren.",
+                "t-exp3-title": "Integrierte automatisierte Fertigung",
+                "t-exp3-desc": "Moderne Fertigungs- und Montagelinien garantieren 100% Übereinstimmung mit dem genehmigten Design.",
+                "t-serv-title": "Umfassende Projektdienstleistungen",
+                "t-serv-subtitle": "Integrierte Ingenieurlösungen für alle Arten von Eisentoren und Zäunen für moderne Gebäude.",
+                "t-s1-title": "Flügeltore & Schiebetore",
+                "t-s1-desc": "Entwurf und Fertigung aller Arten von Schiebe- und Flügeltoren zur optimalen Raumnutzung.",
+                "t-s2-title": "Automatisierungs- & Motorensysteme",
+                "t-s2-desc": "Installation neuester Elektromotoren und Fernbedienungssysteme mit höchster Sicherheit und Zuverlässigkeit.",
+                "t-s3-title": "Personen- & Sicherheitstore",
+                "t-s3-desc": "Fertigung von Haupteingangs- und Personentoren mit Holz- oder Acryleinlagen für unvergleichlichen Schutz.",
+                "t-vision-title": "Unsere Vision für Komfort & Sicherheit",
+                "t-vision-subtitle": "Der Kundenkomfort steht an erster Stelle – vom Aufmaß und Design bis zur Endmontage.",
+                "t-v1-title": "Direkte ingenieurtechnische Betreuung",
+                "t-v1-desc": "Ständige Kommunikation über WhatsApp zur schnellen Auswahl passender Kataloge und Muster.",
+                "t-v2-title": "Präzise professionelle Montage",
+                "t-v3-title": "Umfassende Qualitätsgarantie",
+                "t-calc-title": "Tor-Rechner & Preisanfrage",
+                "t-lbl-name": "Kundenname:",
+                "t-lbl-width": "Breite (Meter):",
+                "t-lbl-height": "Höhe (Meter):",
+                "t-lbl-type": "Tortyp:",
+                "t-opt-t1": "Flügeltor (Zweiflügelig)",
+                "t-opt-t2": "Schiebetor",
+                "t-opt-t3": "Personentor",
+                "t-lbl-finish": "Oberfläche:",
+                "t-opt-f1": "Elektrostatische Beschichtung",
+                "t-opt-f2": "Standardfarbe",
+                "t-opt-f3": "Beratung erforderlich",
+                "t-lbl-motor": "Elektrischer Motor erforderlich?",
+                "t-opt-m1": "Ja",
+                "t-opt-m2": "Nein",
+                "t-opt-m3": "Je nach Preis",
+                "t-btn-confirm": "Anfrage mit diesen Spezifikationen vorbereiten",
+                "t-res-title": "Zusammenfassung der Bestellspezifikationen:",
+                "t-wa-text": "Anfrage an den Ingenieur via WhatsApp senden",
+                "t-footer-rights": "Alle Rechte vorbehalten 2026 © Steel art"
+            },
+            es: {
+                dir: "ltr",
+                "t-nav-about": "Sobre nosotros",
+                "t-nav-exp": "Experiencia en ingeniería",
+                "t-nav-services": "Servicios y Asociaciones",
+                "t-vision-link": "Nuestra visión",
+                "t-nav-calc": "Calculadora de portones",
+                "t-hero-title": "Puertas láser modernas con precisión de ingeniería absoluta",
+                "t-hero-desc": "Más de 8 años de experiencia y más de 500 proyectos exitosos ejecutados con los más altos estándares de precisión y belleza arquitectónica.",
+                "t-hero-btn": "Calcula el tamaño y especificación de tu puerta ahora",
+                "t-about-title": "Sobre nosotros y experiencia extendida",
+                "t-about-subtitle": "Pioneros en la fabricación y moldeo de puertas láser con 8 años de experiencia real y más de 500 proyectos entregados para villas y complejos comerciales.",
+                "t-counter-1": "Años de experiencia",
+                "t-counter-2": "Proyectos completados",
+                "t-counter-3": "Precisión de corte láser",
+                "t-ab1-title": "Corte láser ultrapreciso",
+                "t-ab1-desc": "Uso de máquinas de fibra láser de última generación para obtener detalles ultra suaves y máxima durabilidad sin bordes filosos.",
+                "t-ab2-title": "Revestimiento electrostático térmico",
+                "t-ab2-desc": "Tratamiento de todas las puertas con pinturas al horno de la más alta calidad, totalmente resistentes a la oxidación y al clima severo.",
+                "t-ab3-title": "Equipo de ingeniería especializado",
+                "t-ab3-desc": "Una élite de ingenieros mecánicos y desarrolladores web que ofrecen una experiencia excepcional desde los planos hasta la instalación.",
+                "t-exp-title": "Experiencia en ingeniería y análisis mecánico",
+                "t-exp-subtitle": "Diseñamos patrones láser mediante software de ingeniería avanzado para garantizar la resistencia mecánica y facilitar el movimiento.",
+                "t-exp1-title": "AutoCAD & SolidWorks",
+                "t-exp1-desc": "Dibujo y modificación mecánica de patrones y dimensiones manteniendo la resistencia estructural contra impactos.",
+                "t-exp2-title": "Frontend y Diseño Web",
+                "t-exp2-desc": "Desarrollo de una plataforma web interactiva para solicitar medidas y comunicarse directamente con ingenieros.",
+                "t-exp3-title": "Fabricación automatizada integrada",
+                "t-exp3-desc": "Líneas de fabricación modernas que garantizan una coincidencia del 100% entre el producto final y los diseños aprobados.",
+                "t-serv-title": "Servicios integrales para proyectos",
+                "t-serv-subtitle": "Soluciones de ingeniería integradas para todo tipo de portones de hierro y cercas decorativas para edificios modernos.",
+                "t-s1-title": "Portones abatibles y corredizos",
+                "t-s1-desc": "Diseño y fabricación de todo tipo de puertas corredizas y abatibles para optimizar el espacio y garantizar un movimiento suave.",
+                "t-s2-title": "Sistemas de automatización y motores",
+                "t-s2-desc": "Instalación de los motores eléctricos más avanzados y sistemas de control remoto con máxima seguridad y fiabilidad.",
+                "t-s3-title": "Puertas peatonales y de seguridad",
+                "t-s3-desc": "Fabricación de puertas de entrada y peatonales adornadas con madera o acrílico decorado con láser para una protección inigualable.",
+                "t-vision-title": "Nuestra visión para el confort y seguridad",
+                "t-vision-subtitle": "Ponemos la comodidad del cliente en primer lugar, desde la toma de medidas hasta la instalación final.",
+                "t-v1-title": "Seguimiento de ingeniería directo",
+                "t-v1-desc": "Comunicación constante por WhatsApp para seleccionar catálogos y patrones adaptados al estilo de su hogar.",
+                "t-v2-title": "Instalación profesional precisa",
+                "t-v2-desc": "Equipo de instalación experimentado para garantizar la alineación, conexión firme y movimiento suave.",
+                "t-v3-title": "Garantía de calidad integral",
+                "t-v3-desc": "Garantizamos la precisión del corte láser y la durabilidad de las pinturas contra defectos de fabricación.",
+                "t-calc-title": "Calculadora de portones y presupuesto",
+                "t-lbl-name": "Nombre del cliente:",
+                "t-lbl-width": "Ancho (metros):",
+                "t-lbl-height": "Alto (metros):",
+                "t-lbl-type": "Tipo de portón:",
+                "t-opt-t1": "Abatible (Dos hojas)",
+                "t-opt-t2": "Corredizo",
+                "t-opt-t3": "Puerta peatonal",
+                "t-lbl-finish": "Acabado:",
+                "t-opt-f1": "Revestimiento electrostático",
+                "t-opt-f2": "Pintura estándar",
+                "t-opt-f3": "Necesito asesoría",
+                "t-lbl-motor": "¿Requiere motor eléctrico?",
+                "t-opt-m1": "Sí",
+                "t-opt-m2": "No",
+                "t-opt-m3": "Según el precio",
+                "t-btn-confirm": "Preparar solicitud de presupuesto con estas especificaciones",
+                "t-res-title": "Resumen de especificaciones del pedido:",
+                "t-wa-text": "Enviar solicitud al ingeniero por WhatsApp",
+                "t-footer-rights": "Todos los derechos reservados 2026 © Steel art"
+            },
+            tr: {
+                dir: "ltr",
+                "t-nav-about": "Hakkımızda",
+                "t-nav-exp": "Mühendislik Uzmanlığı",
+                "t-nav-services": "Hizmetler ve Ortaklıklar",
+                "t-vision-link": "Vizyonumuz",
+                "t-nav-calc": "Kapı Hesaplayıcı",
+                "t-hero-title": "Mutlak Mühendislik Hassasiyetiyle Modern Lazer Kapılar",
+                "t-hero-desc": "8 yılı aşkın kapsamlı deneyim ve en yüksek doğruluk, profesyonellik ve mimari estetik standartlarıyla gerçekleştirilen 500'den fazla başarılı proje.",
+                "t-hero-btn": "Kapı Ölçü ve Özelliklerini Şimdi Hesapla",
+                "t-about-title": "Hakkımızda ve Uzmanlık",
+                "t-about-subtitle": "Villalar, saraylar ve büyük ticari yapılar için 8 yıllık gerçek deneyim ve 500'den fazla başarılı projeyle lazer kapı imalatı ve şekillendirmede öncüler.",
+                "t-counter-1": "Yıllık Deneyim",
+                "t-counter-2": "Tamamlanan Proje",
+                "t-counter-3": "Lazer Kesim Hassasiyeti",
+                "t-ab1-title": "Ultra Hassas Lazer Kesim",
+                "t-ab1-desc": "Keskin kenarlar veya deformasyonlar olmaksızın kusursuz mühendislik detayları ve nihai dayanıklılık elde etmek için son teknoloji Fiber Lazer makineleri kullanıyoruz.",
+                "t-ab2-title": "Termal Elektrostatik Kaplama",
+                "t-ab2-desc": "Renklerin onlarca yıl solmadan kalmasını sağlamak için tüm kapılar paslanmaya ve zorlu hava koşullarına tamamen dayanıklı en kaliteli fırın boyalarla işlenir.",
+                "t-ab3-title": "Uzman Mühendislik Ekibi",
+                "t-ab3-desc": "Mühendislik çizimlerinden nihai saha montajına kadar müşterilerimize olağanüstü ve sorunsuz bir deneyim sunan mekanik tasarım mühendisleri.",
+                "t-exp-title": "Mühendislik Uzmanlığı ve Mekanik Analiz",
+                "t-exp-subtitle": "Mekanik dayanıklılığı sağlamak, yığılmaları önlemek ve hareketi kolaylaştırmak için gelişmiş mühendislik yazılımlarıyla lazer desenler tasarlıyoruz.",
+                "t-exp1-title": "AutoCAD & SolidWorks",
+                "t-exp1-desc": "Darbe direncini korumak için mekanik olarak desen ve ölçüleri çizme, düzenleme ve oranları hassasiyetle ayarlama.",
+                "t-exp2-title": "Ön Yüz ve Web Tasarımı",
+                "t-exp2-desc": "Müşterilerin ölçü istemesi, alanı hesaplaması ve uzman mühendislerle doğrudan iletişim kurması için interaktif web platformu.",
+                "t-exp3-title": "Entegre Otomatik Üretim",
+                "t-exp3-desc": "Nihai ürünün onaylanan tasarımla %100 uyumlu olmasını sağlayan modern üretim ve montaj hatları.",
+                "t-serv-title": "Kapsamlı Proje Hizmetleri",
+                "t-serv-subtitle": "Modern binalar için her türlü demir kapı ve dekoratif çit için entegre mühendislik çözümleri sunuyoruz.",
+                "t-s1-title": "Menteşeli ve Kayar Kapılar",
+                "t-s1-desc": "Alan kullanımını optimize etmek ve en yüksek hareket akıcılığını sağlamak için tüm sürgülü, raylı ve menteşeli kapıların tasarımı ve üretimi.",
+                "t-s2-title": "Otomasyon ve Motor Sistemleri",
+                "t-s2-desc": "En yüksek güvenlik ve güvenilirlik seviyeleriyle kapılar için en son elektrikli motorların ve uzaktan kumanda sistemlerinin kurulumu.",
+                "t-s3-title": "Yaya ve Güvenlik Kapıları",
+                "t-s3-desc": "Eşsiz koruma ve zarafet için ahşap veya lazer dekoratif akrilikle kaplanmış ana giriş ve yaya kapılarının imalatı.",
+                "t-vision-title": "Müşteri Konforu ve Güvenliği Vizyonumuz",
+                "t-vision-subtitle": "Ölçü alımı ve tasarım seçeneklerinden nihai montaja kadar her aşamada müşteri konforunu ön planda tutuyoruz.",
+                "t-v1-title": "Doğrudan Mühendislik Takibi",
+                "t-v1-desc": "Evinizin tarzına uygun katalogları ve desenleri hızlı ve doğrudan seçmek için WhatsApp üzerinden sürekli iletişim.",
+                "t-v2-title": "Hassas Profesyonel Montaj",
+                "t-v2-desc": "Hizalamayı, sağlam bağlantıyı, pürüzsüz hareketi ve boya kalitesini garanti eden deneyimli montaj ekibi.",
+                "t-v3-title": "Kapsamlı Kalite Garantisi",
+                "t-v3-desc": "Herhangi bir üretim hatasına veya hava etkisine karşı lazer kesim hassasiyetini ve boya dayanıklılığını garanti ediyoruz.",
+                "t-calc-title": "Kapı Hesaplayıcı ve Fiyat Teklifi",
+                "t-calc-desc": "Yaklaşık alanı hesaplamak ve talebi doğrudan uzman mühendisimize göndermek için adınızı, ölçüleri ve gereksinimleri girin.",
+                "t-lbl-name": "Müşteri Adı:",
+                "t-lbl-width": "Genişlik (metre):",
+                "t-lbl-height": "Yükseklik (metre):",
+                "t-lbl-type": "Kapı Türü:",
+                "t-opt-t1": "Menteşeli (İki Kanatlı)",
+                "t-opt-t2": "Sürgülü (Raylı)",
+                "t-opt-t3": "Yaya Kapısı",
+                "t-lbl-finish": "Yüzey Kaplaması:",
+                "t-opt-f1": "Elektrostatik Kaplama",
+                "t-opt-f2": "Standart Boya",
+                "t-opt-f3": "Hâlâ Danışmanlığa İhtiyacım Var",
+                "t-lbl-motor": "Elektrikli Motor Gerekiyor mu?",
+                "t-opt-m1": "Evet",
+                "t-opt-m2": "Hayır",
+                "t-opt-m3": "Fiyata Göre",
+                "t-btn-confirm": "Bu Özelliklerle Teklif İsteği Hazırla",
+                "t-res-title": "Talep Özeti:",
+                "t-wa-text": "Talebi WhatsApp Üzerinden Şirket Mühendisine Gönder",
+                "t-footer-rights": "Tüm Hakları Saklıdır 2026 © Steel art"
+            }
+        };
+
+        // دالة تبديل اللغات وتطبيق الاتجاه تلقائياً (RTL / LTR)
+        function changeLanguage() {
+            const lang = document.getElementById('langSelect').value;
+            const t = translations[lang];
+            
+            if (!t) return;
+
+            // تغيير اتجاه الصفحة تلقائياً حسب اللغة
+            document.documentElement.setAttribute('lang', lang);
+            document.documentElement.setAttribute('dir', t.dir);
+
+            // تفعيل الترجمة لكافة العناصر التي تحمل الـ ID في القاموس
+            for (const key in t) {
+                if (key !== "dir") {
+                    const el = document.getElementById(key);
+                    if (el) {
+                        el.innerText = t[key];
+                    }
+                }
+            }
+        }
+
+        // دالة فتح/غلق القائمة في الموبايل
+        function toggleMenu() {
+            const navMenu = document.getElementById('navMenu');
+            navMenu.classList.toggle('active');
+        }
+
+        // دالة تبديل الثيم (ليلي / نهاري)
+        function toggleTheme() {
+            const body = document.body;
+            const themeIcon = document.getElementById('themeIcon');
+            if(body.getAttribute('data-theme') === 'dark') {
+                body.setAttribute('data-theme', 'light');
+                themeIcon.className = 'fas fa-sun';
+            } else {
+                body.setAttribute('data-theme', 'dark');
+                themeIcon.className = 'fas fa-moon';
+            }
+        }
+
+        // دالة حساب المواصفات
+        function calculateAndShowSummary() {
+            const clientName = document.getElementById('clientName').value || 'عميل كريم';
+            const width = parseFloat(document.getElementById('doorWidth').value) || 0;
+            const height = parseFloat(document.getElementById('doorHeight').value) || 0;
+            const area = (width * height).toFixed(2);
+            
+            const doorType = document.querySelector('input[name="doorType"]:checked').value;
+            const finishType = document.querySelector('input[name="finishType"]:checked').value;
+            const motorType = document.querySelector('input[name="motorType"]:checked').value;
+
+            if(width <= 0 || height <= 0) {
+                alert('من فضلك ادخل أبعاد صحيحة (العرض والارتفاع)');
+                return;
+            }
+
+            const summaryDetails = document.getElementById('summaryDetails');
+            summaryDetails.innerHTML = `
+                👤 <strong>اسم العميل:</strong> ${clientName}<br>
+                📐 <strong>الأبعاد:</strong> ${width} متر (عرض) × ${height} متر (ارتفاع)<br>
+                📏 <strong>المساحة الإجمالية التقريبية:</strong> ${area} متر مربع<br>
+                🚪 <strong>نوع البوابة:</strong> ${doorType}<br>
+                🎨 <strong>نوع التشطيب:</strong> ${finishType}<br>
+                ⚙️ <strong>الموتور الكهربائي:</strong> ${motorType}
+            `;
+
+            document.getElementById('sizeResultCard').style.display = 'block';
+            document.getElementById('sizeResultCard').scrollIntoView({ behavior: 'smooth' });
+        }
+
+        // دالة الإرسال إلى واتساب المهندس
+        function sendToWhatsAppEngineer() {
+            const clientName = document.getElementById('clientName').value || 'عميل كريم';
+            const width = document.getElementById('doorWidth').value;
+            const height = document.getElementById('doorHeight').value;
+            const area = (width * height).toFixed(2);
+            const doorType = document.querySelector('input[name="doorType"]:checked').value;
+            const finishType = document.querySelector('input[name="finishType"]:checked').value;
+            const motorType = document.querySelector('input[name="motorType"]:checked').value;
+
+            const message = `مرحباً مهندس، أرغب في طلب عرض سعر لبوابة بالمواصفات التالية:%0a` +
+                            `- اسم العميل: ${clientName}%0a` +
+                            `- العرض: ${width} متر%0a` +
+                            `- الارتفاع: ${height} متر%0a` +
+                            `- المساحة التقريبية: ${area} م²%0a` +
+                            `- نوع البوابة: ${doorType}%0a` +
+                            `- التشطيب: ${finishType}%0a` +
+                            `- الموتور الكهربائي: ${motorType}`;
+
+            window.open(`https://wa.me/201005021453?text=${message}`, '_blank');
+        }
+    </script>
+</body>
+</html>
